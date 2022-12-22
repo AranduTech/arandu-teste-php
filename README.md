@@ -14,6 +14,7 @@ composer install
 npm install
 npm run dev
 ```
+ - Copie o arquivo `.env.example` com o nome `.env`, na raiz do diretório.
  - Configure a chave da aplicação laravel
 
 ```
