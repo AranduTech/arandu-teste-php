@@ -28,6 +28,9 @@ class GameController extends Controller
     public function load()
     {
 
+        // Instancia o jogador a partir da sessão, se a
+        // sessão não existir, cria um novo jogador no
+        // quadrado central
         $this->player = session(
             'player',
             new Player(
@@ -36,12 +39,19 @@ class GameController extends Controller
             )
         );
 
+        // Instancia os inimigos a partir da seessão, se
+        // a sessão não existir, gera uma coleção de
+        // inimigos
         $this->enemies = session(
             'enemies',
             collect(Enemy::generateEnemies(Map::ENEMIES))
         );
 
-        // $this->writeToSection();
+        $this->score = session(
+            'score',
+            0
+        );
+
     }
 
     /**
@@ -54,6 +64,7 @@ class GameController extends Controller
         session([
             'player' => $this->player,
             'enemies' => $this->enemies,
+            'score' => $this->score,
         ]);
     }
 
@@ -70,13 +81,18 @@ class GameController extends Controller
 
         $this->player->move($request->key);
 
-        $this->enemies->each(function ($enemy) {
+        $this->enemies->each(function (Enemy $enemy) {
             $enemy->moveRandomDirection();
         });
 
         $this->writeToSession();
     }
 
+    /**
+     * Recebe a requisição para a página do tabuleiro.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function scene()
     {
         $this->load();

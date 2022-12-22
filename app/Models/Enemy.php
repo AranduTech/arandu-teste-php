@@ -8,6 +8,12 @@ use App\Contracts\GameObject;
 class Enemy extends GameObject
 {
 
+    /**
+     * Criar inimigos
+     *
+     * @param mixed $count O número de inimigos a serem criados
+     * @return array<Enemy>
+     */
     static function generateEnemies($count)
     {
         $enemies = [];
@@ -19,6 +25,11 @@ class Enemy extends GameObject
         return $enemies;
     }
 
+    /**
+     * Criar uma posição aleatória dentro dos limites do tabuleiro
+     *
+     * @return array<string,int>
+     */
     public function createRandomPosition()
     {
         return [
@@ -35,9 +46,10 @@ class Enemy extends GameObject
             'y' => $y
         ] = $this->createRandomPosition();
 
-        # não carregar inimigos no mesmo ponto que o jogador
+        // não carregar inimigos no mesmo ponto que o jogador
         while ($this->isCollidingWith(request()->route()->controller->player)) {
-
+            // se foi gerado na mesma posição que o jogador,
+            // refaz a posição
             [
                 'x' => $x,
                 'y' => $y
@@ -61,7 +73,7 @@ class Enemy extends GameObject
     }
 
     /**
-     * Mover o inimigo
+     * Mover o inimigo em uma direção aleatória, com 20% de chance de não se mover.
      *
      * @return void
      */

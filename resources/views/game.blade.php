@@ -426,6 +426,7 @@ border: rgb(0, 0, 0) 1px solid;
                     @endfor
             </tbody>
         </table>
+        <p>Pontuação: {{session('score', 0)}}</p>
     </div>
 
     <script>

@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\GameController::class, 'scene']);
+Route::get('/', [\App\Http\Controllers\GameController::class, 'scene'])->name('game');
 
 Route::post('/move', [\App\Http\Controllers\GameController::class, 'update'])->name('move');
+
+Route::get('/gameover', function () {
+
+    session()->flush();
+
+    return view('gameover');
+})->name('gameover');
